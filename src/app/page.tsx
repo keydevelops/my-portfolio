@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation"; // Updated import
 
 export default function Home() {
   const [quoteIndex, setQuoteIndex] = useState(0);
-  const quotes = ["security is just suggestion.", "Dev from russia", "I like to code in python"];
+  const quotes = ["Security is just suggestion.", "Dev from russia", "I like to code in python"];
   const [displayedQuote, setDisplayedQuote] = useState("");
   const [isDeleting, setIsDeleting] = useState(false);
   const router = useRouter();
