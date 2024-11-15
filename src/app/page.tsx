@@ -4,22 +4,32 @@ import Head from "next/head";
 import { useRouter } from "next/navigation";
 
 export default function Home() {
+  // State to track the current quote index
   const [quoteIndex, setQuoteIndex] = useState(0);
+  // Array of quotes to display
   const quotes = ["Security is just suggestion.", "Dev from russia", "I like to code in python", "I dont exploiting in lego game (maybe)"];
+  // State to hold the currently displayed quote
   const [displayedQuote, setDisplayedQuote] = useState("");
+  // State to determine if the quote is being deleted
   const [isDeleting, setIsDeleting] = useState(false);
+  // Hook to access the router for navigation
   const router = useRouter();
 
   useEffect(() => {
+    // Function to handle typing and deleting effect
     const handleTyping = () => {
       const currentQuote = quotes[quoteIndex];
       if (!isDeleting) {
+        // Add characters to the displayed quote
         setDisplayedQuote(currentQuote.substring(0, displayedQuote.length + 1));
+        // If the entire quote is displayed, start deleting after a delay
         if (displayedQuote === currentQuote) {
           setTimeout(() => setIsDeleting(true), 2000);
         }
       } else {
+        // Remove characters from the displayed quote
         setDisplayedQuote(currentQuote.substring(0, displayedQuote.length - 1));
+        // If the quote is fully deleted, move to the next quote
         if (displayedQuote === "") {
           setIsDeleting(false);
           setQuoteIndex((prevIndex) => (prevIndex + 1) % quotes.length);
@@ -27,10 +37,13 @@ export default function Home() {
       }
     };
 
+    // Set an interval to update the typing effect
     const typingInterval = setInterval(handleTyping, 150);
+    // Clear the interval on component unmount
     return () => clearInterval(typingInterval);
   }, [displayedQuote, isDeleting, quoteIndex, quotes]);
 
+  // Function to handle navigation to different paths
   const handleNavigation = (path: string) => {
     router.push(path);
   };
