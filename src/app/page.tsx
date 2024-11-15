@@ -7,7 +7,7 @@ export default function Home() {
   // State to track the current quote index
   const [quoteIndex, setQuoteIndex] = useState(0);
   // Array of quotes to display
-  const quotes = ["Security is just suggestion.", "Dev from russia", "I like to code in python", "I dont exploiting in lego game (maybe)"];
+  const quotes = ["Security is just suggestion.", "Dev from russia", "I like to code in python", "I dont exploiting in lego game (maybe)", "Not a roblox exploit developer (100%)"];
   // State to hold the currently displayed quote
   const [displayedQuote, setDisplayedQuote] = useState("");
   // State to determine if the quote is being deleted
