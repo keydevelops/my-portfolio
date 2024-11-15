@@ -3,6 +3,12 @@ import { useState, useEffect } from "react";
 import Head from "next/head";
 import { useRouter } from "next/navigation";
 
+/**
+ * Renders the Home page component with dynamic typing effect and navigation.
+ * This component displays a greeting, a cycling quote with a typing effect,
+ * and a list of programming languages the author knows.
+ * @returns {JSX.Element} The rendered Home page component
+ */
 export default function Home() {
   // State to track the current quote index
   const [quoteIndex, setQuoteIndex] = useState(0);
