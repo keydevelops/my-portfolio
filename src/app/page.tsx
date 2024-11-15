@@ -1,11 +1,11 @@
 "use client"
 import { useState, useEffect } from "react";
 import Head from "next/head";
-import { useRouter } from "next/navigation"; // Updated import
+import { useRouter } from "next/navigation";
 
 export default function Home() {
   const [quoteIndex, setQuoteIndex] = useState(0);
-  const quotes = ["Security is just suggestion.", "Dev from russia", "I like to code in python"];
+  const quotes = ["Security is just suggestion.", "Dev from russia", "I like to code in python", "I dont exploiting in lego game (maybe)"];
   const [displayedQuote, setDisplayedQuote] = useState("");
   const [isDeleting, setIsDeleting] = useState(false);
   const router = useRouter();
