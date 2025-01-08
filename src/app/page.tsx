@@ -101,6 +101,11 @@ export default function Home() {
                 <p>Experience: 0.5 years</p>
                 <p>Projects: Some apps</p>
               </div>
+              <div className="border p-4 rounded bg-gray-800">
+                <h3 className="font-bold">Java#</h3>
+                <p>Experience: 0.000000001 years</p>
+                <p>Projects: MIENCRAFT?!?!?!?!?!?!?!</p>
+              </div>
             </div>
           </section>
         </main>
