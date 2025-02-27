@@ -27,7 +27,7 @@ export default function Projects() {
               <div className="border p-4 rounded bg-gray-800">
                 <h3 className="font-bold">my-site</h3>
                 <p>
-                  <a href="https://privatekey.is-a.dev" className="text-blue-400 hover:underline">Live</a>
+                  <a href="https://prvkey.ru" className="text-blue-400 hover:underline">Live</a>
                   <a> | </a>
                   <a href="https://github.com/keydevelops/my-portfolio" className="text-blue-400 hover:underline">Source</a>
                 </p>
