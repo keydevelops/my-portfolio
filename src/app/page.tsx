@@ -89,12 +89,7 @@ export default function Home() {
               <div className="border p-4 rounded bg-gray-800">
                 <h3 className="font-bold">LuaU</h3>
                 <p>Experience: 1 year</p>
-                <p>Projects: Scripts in roblox</p>
-              </div>
-              <div className="border p-4 rounded bg-gray-800">
-                <h3 className="font-bold">PHP</h3>
-                <p>Experience: 1.5 years</p>
-                <p>Projects: Websites, some apis</p>
+                <p>Projects: Scripts in roblox. SAMP.</p>
               </div>
               <div className="border p-4 rounded bg-gray-800">
                 <h3 className="font-bold">C#</h3>
