@@ -5,6 +5,7 @@ $(document).ready(function () {
     $.getJSON(link, function(json) {
       const uuid = json.data.discord_user.avatar;
       const avatarlink = `https://cdn.discordapp.com/avatars/${id}/${uuid}.png`;
+      console.log("Recieved user avatar:", avatarlink);
       $('.avatar').css('background-image', `url(${avatarlink})`);
     }).fail(function(err) {
       console.error('Error getting user avatar:', err);
