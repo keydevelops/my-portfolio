@@ -73,7 +73,7 @@ $(document).ready(function () {
     location.reload(false);
   });
 
-  setUserAvatar("1129633540330487808")
+  setUserAvatar("680636323471818876")
 
   $('.click').on('click', function () {
     $('.click').fadeOut(300);
