@@ -11,6 +11,22 @@ interface Track {
 const props = defineProps<{ entered: boolean }>();
 
 const PLAYLIST_URL = 'https://cdn.prvkey.ru/music.json';
+const STORAGE_KEY = 'music-player-volume';
+
+function getSavedVolume(): number {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved !== null) {
+      const parsed = parseFloat(saved);
+      if (!isNaN(parsed) && parsed >= 0 && parsed <= 1) {
+        return parsed;
+      }
+    }
+  } catch (e) {
+    console.error('[MusicPlayer] Failed to load volume from localStorage:', e);
+  }
+  return 0.05;
+}
 
 function isValidTrack(t: unknown): t is Track {
   if (!t || typeof t !== 'object') return false;
@@ -29,12 +45,13 @@ function pickRandom<T>(arr: T[]): T {
 const playlist = ref<Track[]>([]);
 const current = ref<Track | null>(null);
 const playing = ref(false);
-const volume = ref(0.05);
+const volume = ref(getSavedVolume());
 const ready = ref(false);
 const expanded = ref(false);
 
 const audioRef = ref<HTMLAudioElement | null>(null);
 let intendToPlay = false;
+let autoplayAttempted = false;
 let preloadAudio: HTMLAudioElement | null = null;
 
 const eqHeights = [0.6, 1, 0.75, 0.9, 0.5];
@@ -80,10 +97,12 @@ onMounted(() => {
 });
 
 watch(
-  () => [props.entered, current.value?.link] as const,
-  ([entered]) => {
-    if (!entered || !current.value || !audioRef.value) return;
-    console.debug('[MusicPlayer] Entered, attempting autoplay:', current.value.name);
+  () => [props.entered, current.value] as const,
+  ([entered, track]) => {
+    if (!entered || !track || autoplayAttempted) return;
+    if (!audioRef.value) return;
+    autoplayAttempted = true;
+    console.debug('[MusicPlayer] Entered, attempting autoplay:', track.name);
     const audio = audioRef.value;
     audio.volume = volume.value;
     intendToPlay = true;
@@ -92,11 +111,17 @@ watch(
       intendToPlay = false;
     });
   },
+  { flush: 'post' }
 );
 
 watch(volume, (v) => {
   console.debug('[MusicPlayer] Volume changed:', Math.round(v * 100) + '%');
   if (audioRef.value) audioRef.value.volume = v;
+  try {
+    localStorage.setItem(STORAGE_KEY, v.toString());
+  } catch (e) {
+    console.error('[MusicPlayer] Failed to save volume to localStorage:', e);
+  }
 });
 
 function skip() {
@@ -121,6 +146,7 @@ function togglePlay() {
   } else {
     console.debug('[MusicPlayer] Resuming playback');
     intendToPlay = true;
+    audio.volume = volume.value;
     audio.play().catch((err) => {
       console.debug('[MusicPlayer] Play failed:', err);
       intendToPlay = false;
@@ -131,8 +157,10 @@ function togglePlay() {
 function handleCanPlay() {
   console.debug('[MusicPlayer] canplay fired for:', current.value?.name);
   ready.value = true;
-  if (intendToPlay && audioRef.value) {
+  if (audioRef.value) {
     audioRef.value.volume = volume.value;
+  }
+  if (intendToPlay && audioRef.value) {
     audioRef.value.play().catch(() => {});
   }
 }
@@ -156,6 +184,7 @@ const volumePercent = computed(() => Math.round(volume.value * 100));
       :key="current.link"
       ref="audioRef"
       :src="current.link"
+      :volume="volume"
       :loop="playlist.length <= 1"
       preload="auto"
       @canplay="handleCanPlay"
